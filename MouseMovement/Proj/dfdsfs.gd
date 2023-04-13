@@ -1,7 +1,8 @@
-extends Node2D
+extends Node
 var mousePos : Vector2
 
 
-func _process(delta):
-	mousePos = get_global_mouse_position()
-	
+func _ready():
+	for i in range(5):
+		await get_tree().create_timer(0.5).timeout
+		print(i)
