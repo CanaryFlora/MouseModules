@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://5uanysutb81r"]
+
+[ext_resource type="Texture2D" uid="uid://bgointun2sj74" path="res://AssetsInv/placeholder terrain.png" id="1_05hon"]
+[ext_resource type="Script" path="res://InventoryManager.gd" id="1_se2tx"]
+[ext_resource type="Script" path="res://DragItemCancel.gd" id="6_01g4a"]
+[ext_resource type="Script" path="res://movement.gd" id="10_rudve"]
+[ext_resource type="Texture2D" uid="uid://c8e57m5mgjff1" path="res://icon.svg" id="11_vohya"]
+[ext_resource type="Texture2D" uid="uid://b5guouyw8p6vh" path="res://AssetsInv/pentagon.png" id="12_p7sv8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xccrx"]
+size = Vector2(128, 128)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_se2tx")
+
+[node name="BG" type="Sprite2D" parent="."]
+position = Vector2(1152.75, 652.5)
+scale = Vector2(2.8545, 1.761)
+texture = ExtResource("1_05hon")
+region_enabled = true
+region_rect = Rect2(0, 0, 1000, 1000)
+
+[node name="move thing" type="CharacterBody2D" parent="."]
+script = ExtResource("10_rudve")
+
+[node name="Sprite2D" type="Sprite2D" parent="move thing"]
+texture = ExtResource("11_vohya")
+
+[node name="Camera2D" type="Camera2D" parent="move thing"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move thing"]
+shape = SubResource("RectangleShape2D_xccrx")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="DragItemCancel" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("6_01g4a")
+
+[node name="InvSlotsActive" type="Node" parent="UI"]
+unique_name_in_owner = true
+
+[node name="InvSlotsPassive" type="Node" parent="UI"]
+unique_name_in_owner = true
+
+[node name="ItemsActive" type="Node" parent="UI"]
+unique_name_in_owner = true
+
+[node name="TextureButton2" type="TextureButton" parent="UI"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -128.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("12_p7sv8")
+
+[node name="TextureButton" type="TextureButton" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_bottom = 128.0
+grow_horizontal = 0
+texture_normal = ExtResource("11_vohya")
+
+[connection signal="on_number_clicked" from="." to="." method="active_passive_move"]
+[connection signal="pressed" from="UI/TextureButton2" to="." method="_on_texture_button_2_pressed"]
+[connection signal="pressed" from="UI/TextureButton" to="." method="_on_texture_button_pressed"]
