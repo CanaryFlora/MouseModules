@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3 uid="uid://bigk2ne6ea6in"]
+
+[ext_resource type="Texture2D" uid="uid://buxjako75nndh" path="res://Assets/MouseBody.png" id="1_rs6he"]
+[ext_resource type="Script" path="res://player.gd" id="1_yto60"]
+[ext_resource type="PackedScene" uid="uid://shuiwirpce3x" path="res://rotate_component.tscn" id="2_shmex"]
+[ext_resource type="Texture2D" uid="uid://blvb2ecmw4owr" path="res://Assets/MouseHandWhite.png" id="3_173io"]
+[ext_resource type="Texture2D" uid="uid://c33npov4a1srk" path="res://Assets/MouseHandBlack.png" id="4_u22se"]
+[ext_resource type="PackedScene" uid="uid://cqenhg7em0hp6" path="res://dagger.tscn" id="5_ybbrb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_al3ms"]
+radius = 10.0499
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u6lyv"]
+size = Vector2(49, 116)
+
+[node name="Mouse" type="CharacterBody2D"]
+script = ExtResource("1_yto60")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_rs6he")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(53, 24, 54, 13, 51, 1, 43, -21, 32, -35, 17, -43, -12, -44, -20, -44, -28, -37, -36, -32, -50, -9, -54, 5, -55, 18, -52, 31, -54, 46, -51, 55, -44, 63, -37, 64, -15, 92, 0, 101, 12, 93, 27, 76, 36, 62, 46, 59, 54, 48, 53, 33, 54, 28)
+
+[node name="RotationMovement" parent="." node_paths=PackedStringArray("targetNode", "targetNodeCollision", "dashHitbox") instance=ExtResource("2_shmex")]
+targetNode = NodePath("..")
+targetNodeCollision = NodePath("../CollisionPolygon2D")
+dashHitbox = NodePath("../DashHitbox")
+
+[node name="LeftPoint" type="Node2D" parent="."]
+position = Vector2(-42, 90)
+
+[node name="HandLeft" type="Node2D" parent="LeftPoint"]
+position = Vector2(-3, 10)
+scale = Vector2(1.2, 1.2)
+
+[node name="Dagger" parent="LeftPoint/HandLeft" instance=ExtResource("5_ybbrb")]
+position = Vector2(-1, 15)
+rotation = -3.14159
+scale = Vector2(1, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftPoint/HandLeft"]
+texture = ExtResource("4_u22se")
+
+[node name="Area2D" type="Area2D" parent="LeftPoint/HandLeft"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftPoint/HandLeft/Area2D"]
+shape = SubResource("CircleShape2D_al3ms")
+
+[node name="RightPoint" type="Node2D" parent="."]
+position = Vector2(42, 90)
+
+[node name="HandRight" type="Node2D" parent="RightPoint"]
+position = Vector2(3, 10)
+scale = Vector2(1.2, 1.2)
+
+[node name="Dagger" parent="RightPoint/HandRight" instance=ExtResource("5_ybbrb")]
+position = Vector2(0, 15)
+rotation = -3.14159
+scale = Vector2(1, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="RightPoint/HandRight"]
+texture = ExtResource("3_173io")
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="RightPoint/HandRight"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightPoint/HandRight/Area2D"]
+shape = SubResource("CircleShape2D_al3ms")
+
+[node name="AuxPoint" type="Node2D" parent="."]
+
+[node name="DashHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 20)
+shape = SubResource("RectangleShape2D_u6lyv")
+disabled = true

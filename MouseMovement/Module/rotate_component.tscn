@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://shuiwirpce3x"]
+
+[sub_resource type="GDScript" id="GDScript_r1ji2"]
+script/source = "extends \"res://MovementComponent.gd\"
+var rotationTime : int = 0.2
+var currentRotation : int
+var rotation : int
+var rotateOutput : int
+var finalRotation : int
+
+
+func _process(delta):
+	# wasd rotation
+	var rotateOutput : int = rotate_node(xMov, yMov, targetNode)
+	var negRotation : int = rotateOutput - 360
+	var negRotationDeg : int
+	if targetNode.rotation_degrees != rotateOutput:
+		negRotationDeg = targetNode.rotation_degrees + abs(negRotation)
+		var posRotationDeg : int = abs(rotateOutput - targetNode.rotation_degrees)
+		if negRotationDeg < posRotationDeg:
+			finalRotation = negRotation
+		elif negRotationDeg >= posRotationDeg:
+			finalRotation = rotateOutput
+		var tween : Tween = get_tree().create_tween()
+		tween.tween_property(targetNode, \"rotation_degrees\", finalRotation, 0.2).from(targetNode.rotation_degrees).set_ease(Tween.EASE_OUT_IN)
+#		print(\"rotate \", rotateOutput, \" current \", targetNode.rotation_degrees, \" negRotation \", negRotation, \" negRotationDeg \", negRotationDeg, \" pos \", posRotationDeg, \" final \", finalRotation)
+
+
+
+
+#override
+#func test_rot():
+#	var rotateOutput : int = 152
+#	currentRotation = 315
+#	var tween : Tween = get_tree().create_tween()
+#	tween.tween_property(targetNode, \"rotation_degrees\", rotateOutput, 1).from(currentRotation)
+#	currentRotation = rotateOutput
+
+
+
+func rotate_node(xMov : int, yMov : int, node : Node) -> int:
+	match yMov:
+		1:
+			match xMov:
+				1:
+					rotation = 315
+				0:
+					rotation = 360
+				-1:
+					rotation = 45
+		0:
+			match xMov:
+				1:
+					rotation = 270
+				-1:
+					rotation = 90
+		-1:
+			match xMov:
+				1:
+					rotation = 225
+				0:
+					rotation = 180
+				-1:
+					rotation = 135
+	return rotation
+"
+
+[node name="RotateComponent" type="Node"]
+script = SubResource("GDScript_r1ji2")
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true

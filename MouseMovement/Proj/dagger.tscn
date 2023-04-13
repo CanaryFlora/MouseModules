@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqenhg7em0hp6"]
+
+[ext_resource type="Texture2D" uid="uid://cpb53uyg133p4" path="res://Assets/wood_dagger.png" id="1_jxrgj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5o1q"]
+size = Vector2(8, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nmfio"]
+size = Vector2(2, 9.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5dea"]
+size = Vector2(5, 12.5)
+
+[node name="Dagger" type="Node2D"]
+scale = Vector2(1.2, 1.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_jxrgj")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_y5o1q")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -27.25)
+shape = SubResource("RectangleShape2D_nmfio")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -16.25)
+shape = SubResource("RectangleShape2D_o5dea")
